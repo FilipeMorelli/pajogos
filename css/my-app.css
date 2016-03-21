@@ -3,10 +3,27 @@
 
 /* Index*/
 
-.background-index {
+.index .background-index {
     
 }
+.index .content-logo{
+    text-align: center;
+    margin-top: 50px;
+    margin-top: 15vh;
+    margin-bottom: 30px;
+}
+.index .content-logo img{
+    width: 200px;
+    height: auto;
+}
+.index .button.button-big{
+    border-radius: 25px;
+}
+.index .copy-right{
+    text-align: center;
+}
 
-.mosquito{
+/* Modo Humano*/
+.modo-humano .mosquito{
     position: fixed;
 }
