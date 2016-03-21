@@ -25,3 +25,6 @@
 /* Modo Humano*/
 .modo-humano .mosquito{
     position: fixed;
+    width: 36px;
+    height: auto;
+}
