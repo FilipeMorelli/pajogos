@@ -14,3 +14,12 @@ var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true
 });
+
+Dom7.ajaxSetup({
+    beforeSend: function () {
+        myApp.showIndicator();
+    },
+    complete: function () {
+        myApp.hideIndicator();
+    }
+})
