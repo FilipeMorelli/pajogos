@@ -15,10 +15,10 @@ var Game; //variavel global que contem o jogo
             },
             criarMosquito: function () {
                 var mosquito = $('<img class="mosquito" src="img/mosquito.png">'); // cria um objeto mosquito
-                mosquito.css("top", Game.randomTop(mosquito)); // insere a posição y
-                mosquito.css("left", Game.randomLeft(mosquito)); // insere a posição x
+                mosquito.css("top", Game.randomTop(36)); // insere a posição y
+                mosquito.css("left", Game.randomLeft(36)); // insere a posição x
                 // Evento caso ele toque no objeto mosquito
-                mosquito.on("mousedown touchstart", function (e) {
+                mosquito.on("click touchstart", function (e) {
                     e.preventDefault();
                     console.log("Removeu")
                     $(this).remove();
@@ -39,17 +39,18 @@ var Game; //variavel global que contem o jogo
             }
         },
         //objetos globais do Game tanto para o modo mosquito e para modo humano
-        //retirar 36 pois ele é o tamanho fixo da imagem mosquitp
-        randomTop: function (obj) {
-            var aleatorio = Math.random() * $window.height();
-            if (aleatorio + 36 >= $window.height())
-                return $window.height() - obj.height() + "px";
+        //retirar 36 pois ele é o tamanho fixo da imagem mosquito
+        //56 tamanho do navbar
+        randomTop: function (height) {
+            var aleatorio = Math.random() * $window.height() + 56;
+            if (aleatorio + height >= $window.height())
+                return $window.height() - height + "px";
             return aleatorio + "px";
         },
-        randomLeft: function (obj) {
+        randomLeft: function (width) {
             var aleatorio = Math.random() * $window.width();
-            if (aleatorio + 36 >= $window.width())
-                return $window.width() - obj.width() + "px";
+            if (aleatorio + width >= $window.width())
+                return $window.width() - width + "px";
             return aleatorio + "px";
         },
     }

@@ -1,5 +1,12 @@
 /* Todos */
-
+/* 
+    Irá ser usado para esconder o background do navbar
+    Mudat para transparent o transparent-1
+*/
+.transparent-1{
+    background: none;
+    background: transparent;
+}
 
 /* Index*/
 .index .background-index {
