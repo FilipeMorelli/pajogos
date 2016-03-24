@@ -1,11 +1,10 @@
 /* Todos */
-/* 
-    Irá ser usado para esconder o background do navbar
-    Mudat para transparent o transparent-1
-*/
-.transparent-1{
+.transparent{
     background: none;
     background: transparent;
+}
+.transparent .center{
+    color: #000;
 }
 
 /* Index*/
@@ -33,4 +32,18 @@
     position: fixed;
     width: 36px;
     height: auto;
+    cursor: pointer;
+}
+
+/* Icones */
+.pause-continue-game.pause-game i.icon.icon-pause-continue{
+    width: 24px;
+    height: 24px;
+    background-image: url(../img/ic_pause_black_24dp_2x.png);
+}
+
+.pause-continue-game.continue-game i.icon.icon-pause-continue{
+    width: 24px;
+    height: 24px;
+    background-image: url(../img/ic_play_arrow_black_24dp_2x.png);
 }
