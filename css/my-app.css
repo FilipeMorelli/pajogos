@@ -6,6 +6,11 @@
 .transparent .center{
     color: #000;
 }
+.navbar .right, .subnavbar .right{
+    margin-left: 0px;
+    position: absolute;
+    right: 0px;
+}
 
 /* Index*/
 .index .background-index {
