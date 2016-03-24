@@ -64,7 +64,7 @@
     myApp.onPageInit('modo-humano', function (page) {
         Game.humano.start($(".modo-humano"));
         
-        $(".pause-continue-game").on("mousedown touchstart", function(e){
+        $(".pause-continue-game").on("click touchstart", function(e){
             e.preventDefault();
             var $this = $(this);
             if($this.hasClass('pause-game')){
