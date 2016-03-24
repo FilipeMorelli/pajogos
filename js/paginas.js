@@ -1,5 +1,4 @@
 (function (window, document, navigato, myApp, $, DataBase, Game) {
-    
     myApp.onPageInit('modo-humano', function (page) {
         Game.humano.start($(".modo-humano"));
         
@@ -9,6 +8,7 @@
             $this = $(this);
             if($this.hasClass('pause-game')){
                 $this.addClass('continue-game').removeClass('pause-game')
+                window.$this = $this;
                 Game.humano.pausarGerarMosquito();
             } else {
                 $this.addClass('pause-game').removeClass('continue-game')

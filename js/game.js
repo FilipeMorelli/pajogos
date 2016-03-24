@@ -20,16 +20,21 @@ var Game; //variavel global que contem o jogo
                 // Evento caso ele toque no objeto mosquito
                 mosquito.on("click touchstart", function (e) {
                     e.preventDefault();
-                    console.log("Removeu")
+                    Game.humano.addPonto(1);
                     $(this).remove();
                 });
                 Game.humano.paginaModoHumano.append(mosquito); // coloca mosquito no DOM
             },
+            addPonto: function(pontos){
+                $(".pontos").text(parseInt($(".pontos").text()) + pontos)
+            },
             pausarGerarMosquito: function () {
                 clearInterval(loop); // paussa ou para o loop de gerar mosquitos
+                this.paginaModoHumano.addClass("pause-background");
             },
             gerarMosquito: function () {
                 loop = setInterval(this.criarMosquito, 2500); // loop de gerar mosquitos
+                this.paginaModoHumano.removeClass("pause-background");
             }
         },
         mosquito: {

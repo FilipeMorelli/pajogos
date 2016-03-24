@@ -28,11 +28,26 @@
 }
 
 /* Modo Humano*/
+[data-page="modo-humano"] > *{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;    
+}
 .modo-humano .mosquito{
     position: fixed;
     width: 36px;
     height: auto;
     cursor: pointer;
+}
+.pause-background{
+    pointer-events: none;
+    background: rgba(0,0,0,0.75);
+    height: 100vh; /*Caso o 100% falhe*/
+    height: 100%;
+    margin-top: 56px;
 }
 
 /* Icones */
