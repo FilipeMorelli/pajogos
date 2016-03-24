@@ -1,11 +1,11 @@
-var Game; //variavel global que contem o jogo
+//var Game; //variavel global que contem o jogo
 
 (function (window, document, navigator, myApp, $) {
     "use strict"; // modo javascript mais rápido e não aceita erros
     var $window = $(window); // variavel global window
     var loop; // comtem ou vai conter o setInterval
     //objeto Game contem todo o jogo
-    Game = {
+    var Game = {
         humano: {
             paginaModoHumano: null, //contem a pagina que acontecerá o jogo não posso instancia para receber a pagina já que ainda não foi carregada no DOM
             start: function (page) {
@@ -59,4 +59,31 @@ var Game; //variavel global que contem o jogo
             return aleatorio + "px";
         },
     }
+    
+    /* Paginas */
+    myApp.onPageInit('modo-humano', function (page) {
+        Game.humano.start($(".modo-humano"));
+        
+        $(".pause-continue-game").on("mousedown touchstart", function(e){
+            e.preventDefault();
+            var $this = $(this);
+            if($this.hasClass('pause-game')){
+                $this.addClass('continue-game').removeClass('pause-game')
+                Game.humano.pausarGerarMosquito();
+            } else {
+                $this.addClass('pause-game').removeClass('continue-game')
+                Game.humano.gerarMosquito();
+            }
+            
+        });
+    });
+    
+    myApp.onPageBack("modo-humano", function(page){
+       Game.humano.pausarGerarMosquito();
+    });
+    
+    myApp.onPageInit('modo-mosquito', function (page) {
+        //Game.mosquito.start($(".modo-mosquito"));
+    });
+    
 })(window, document, navigator, myApp, Dom7)
