@@ -24,6 +24,17 @@
                     $(this).remove();
                 });
                 Game.humano.paginaModoHumano.append(mosquito); // coloca mosquito no DOM
+                setTimeout(function(){
+                    if(mosquito.parents('html').length == 1){
+                        /*
+                        Ao inves de ter somente reduzir um no ponto
+                        tera que diminuir no coração
+                        que depois terei que fazer
+                        */
+                        Game.humano.addPonto(-1);
+                        mosquito.remove();
+                    }
+                },5000);
             },
             addPonto: function(pontos){
                 $(".pontos").text(parseInt($(".pontos").text()) + pontos)
