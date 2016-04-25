@@ -4,7 +4,6 @@ myApp = new Framework7
   swipePanel: 'left'
   swipePanelActiveArea: 56
 
-
 # Export selectors engine
 $ = Dom7;
 
@@ -44,7 +43,7 @@ class Database
 class Game extends Database
   constructor: (paginaContent) ->
     @vida = 100 #vida do jogador
-    @window = $(window) #variavel que comtem o objeto window
+    @$window = $(window) #variavel que comtem o objeto window
     @pontosJogo = $(".pontos") #variavel que comtem a classe que mostra a pontuação
     @loopGerarConteudo = null; #comtem ou vai conter o setInterval
     if paginaContent?
@@ -63,40 +62,58 @@ class Game extends Database
 
   #gera numero aleatorio no eixo x
   randomTop: (height) ->
-    aleatorio = Math.random() * @window.heigth() + 56; # 56 area do navbar
-    if aleatorio + height >= @window.height()
-      "#{@window.height() - height}px";
+    aleatorio = Math.random() * @$window.height() + 56 # 56 area do navbar
+    if aleatorio + height >= @$window.height()
+      console.log "#{@$window.height() - height}px";
+      "#{@$window.height() - height}px";
     else
+      console.log "#{aleatorio}px";
       "#{aleatorio}px";
 
   #gera numero aleatorio no eixo Y
   randomLeft: (width) ->
-    aleatorio = Math.random * @window.width();
-    if aleatorio + width >= @window.width()
-      "#{@window.width() - width}px"
+    aleatorio = Math.random() * @$window.width()
+    if aleatorio + width >= @$window.width()
+      "#{@$window.width() - width}px"
     else
       "#{aleatorio}px"
 
-  #controla o fluxo do jogo como pausar e continuar
-  pauseContinueJogo: ->
-    clearInterval(@loopGerarConteudo); # paussa ou para de gerar conteudo por exemplo mosquitos
-    @paginaContent.toggleClass("pause-background");
 
 
 #criar Classe mosquito
 
 #Jogo no modo Humano
 class Mosquito extends Game
-  constructor: () ->
+  loop: null # contem set interval do objeto
   aparecer: () ->
-  sumir: () ->
-  morrer: () ->
+    #mosquito = $('<img class="mosquito" src="img/mosquito.png" n1="197px" n2="-169px" n3="200px" n4="0px">')
+    mosquito = $('<img class="mosquito" src="img/mosquito.png">')
+    mosquito.css 'top' , @randomTop(36)
+    mosquito.css 'left' , @randomLeft(36)
+    mosquito.on 'click', (e) =>
+      e.preventDefault()
+      @morrer(mosquito)
+    @paginaContent.append(mosquito)
+    @sumir(mosquito)
+  sumir: (mosquito) ->
+    setTimeout =>
+      if mosquito.parents('html').length == 1
+        mosquito.remove()
+        @addPontos(-1)
+    , 2500
+  morrer: (mosquito) ->
+    @addPontos(1)
+    mosquito.remove()
   reproduzir: () ->
   infectar: () ->
+  gerarInimigo: ->
+    @loop = setInterval =>
+      @aparecer()
+    , 2500
+
 
 #Jogo no modo mosquito
 class Humano extends Game
-  constructor: () ->
   aparecer: () ->
   sumir: () ->
   morrer: () ->
@@ -106,15 +123,13 @@ class Humano extends Game
 
 
 myApp.onPageInit "modo-humano", (page) ->
-  game = new Game($(".modo-humano"));
+  mosquito = new Mosquito $(".modo-humano")
+  mosquito.gerarInimigo()
+  #mosquito.aparecer();
+
   #Game.humano.start($(".modo-humano"));
   $(".pause-continue-game").on "click", (e) ->
     $this = $(@)
     e.preventDefault()
-    if $this.hasClass("pause-game")
-      $this.addClass('continue-game').removeClass('pause-game')
-      #Game.humano.pauseGerarMosquito()
-    else
-      $this.addClass('pause-game').removeClass('continue-game')
-    #Game.humano.gerarMosquito()
+    mosquito.pauseContinueJogo();
   return;

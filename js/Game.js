@@ -57,7 +57,7 @@
 
     function Game(paginaContent) {
       this.vida = 100;
-      this.window = $(window);
+      this.$window = $(window);
       this.pontosJogo = $(".pontos");
       this.loopGerarConteudo = null;
       if (paginaContent != null) {
@@ -77,27 +77,24 @@
 
     Game.prototype.randomTop = function(height) {
       var aleatorio;
-      aleatorio = Math.random() * this.window.heigth() + 56;
-      if (aleatorio + height >= this.window.height()) {
-        return (this.window.height() - height) + "px";
+      aleatorio = Math.random() * this.$window.height() + 56;
+      if (aleatorio + height >= this.$window.height()) {
+        console.log((this.$window.height() - height) + "px");
+        return (this.$window.height() - height) + "px";
       } else {
+        console.log(aleatorio + "px");
         return aleatorio + "px";
       }
     };
 
     Game.prototype.randomLeft = function(width) {
       var aleatorio;
-      aleatorio = Math.random * this.window.width();
-      if (aleatorio + width >= this.window.width()) {
-        return (this.window.width() - width) + "px";
+      aleatorio = Math.random() * this.$window.width();
+      if (aleatorio + width >= this.$window.width()) {
+        return (this.$window.width() - width) + "px";
       } else {
         return aleatorio + "px";
       }
-    };
-
-    Game.prototype.pauseContinueJogo = function() {
-      clearInterval(this.loopGerarConteudo);
-      return this.paginaContent.toggleClass("pause-background");
     };
 
     return Game;
@@ -107,17 +104,54 @@
   Mosquito = (function(superClass) {
     extend(Mosquito, superClass);
 
-    function Mosquito() {}
+    function Mosquito() {
+      return Mosquito.__super__.constructor.apply(this, arguments);
+    }
 
-    Mosquito.prototype.aparecer = function() {};
+    Mosquito.prototype.loop = null;
 
-    Mosquito.prototype.sumir = function() {};
+    Mosquito.prototype.aparecer = function() {
+      var mosquito;
+      mosquito = $('<img class="mosquito" src="img/mosquito.png">');
+      mosquito.css('top', this.randomTop(36));
+      mosquito.css('left', this.randomLeft(36));
+      mosquito.on('click', (function(_this) {
+        return function(e) {
+          e.preventDefault();
+          return _this.morrer(mosquito);
+        };
+      })(this));
+      this.paginaContent.append(mosquito);
+      return this.sumir(mosquito);
+    };
 
-    Mosquito.prototype.morrer = function() {};
+    Mosquito.prototype.sumir = function(mosquito) {
+      return setTimeout((function(_this) {
+        return function() {
+          if (mosquito.parents('html').length === 1) {
+            mosquito.remove();
+            return _this.addPontos(-1);
+          }
+        };
+      })(this), 2500);
+    };
+
+    Mosquito.prototype.morrer = function(mosquito) {
+      this.addPontos(1);
+      return mosquito.remove();
+    };
 
     Mosquito.prototype.reproduzir = function() {};
 
     Mosquito.prototype.infectar = function() {};
+
+    Mosquito.prototype.gerarInimigo = function() {
+      return this.loop = setInterval((function(_this) {
+        return function() {
+          return _this.aparecer();
+        };
+      })(this), 2500);
+    };
 
     return Mosquito;
 
@@ -126,7 +160,9 @@
   Humano = (function(superClass) {
     extend(Humano, superClass);
 
-    function Humano() {}
+    function Humano() {
+      return Humano.__super__.constructor.apply(this, arguments);
+    }
 
     Humano.prototype.aparecer = function() {};
 
@@ -141,17 +177,14 @@
   })(Game);
 
   myApp.onPageInit("modo-humano", function(page) {
-    var game;
-    game = new Game($(".modo-humano"));
+    var mosquito;
+    mosquito = new Mosquito($(".modo-humano"));
+    mosquito.gerarInimigo();
     $(".pause-continue-game").on("click", function(e) {
       var $this;
       $this = $(this);
       e.preventDefault();
-      if ($this.hasClass("pause-game")) {
-        return $this.addClass('continue-game').removeClass('pause-game');
-      } else {
-        return $this.addClass('pause-game').removeClass('continue-game');
-      }
+      return mosquito.pauseContinueJogo();
     });
   });
 
