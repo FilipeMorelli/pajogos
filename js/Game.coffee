@@ -106,6 +106,7 @@ class Mosquito extends Game
     , 2500
   morrer: (mosquito) ->
     @addPontos(1)
+    #@addVida(5) Adicionar vida ou não
     mosquito.remove()
   reproduzir: () ->
     @aparecer(2)
