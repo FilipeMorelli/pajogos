@@ -113,20 +113,20 @@
     Mosquito.prototype.loop = null;
 
     Mosquito.prototype.aparecer = function(num) {
-      var mosquito, results;
+      var $this, mosquito, results;
+      $this = this;
       results = [];
       while (num > 0 && this.addVida(0) > 0) {
+        mosquito = null;
         mosquito = $('<img class="mosquito" src="img/mosquito.png">');
-        mosquito.css('top', this.randomTop(36));
-        mosquito.css('left', this.randomLeft(36));
-        mosquito.on('mousedown touchstart', (function(_this) {
-          return function(e) {
-            e.preventDefault();
-            return _this.morrer(mosquito);
-          };
-        })(this));
-        this.paginaContent.append(mosquito);
-        this.sumir(mosquito);
+        mosquito.css('top', $this.randomTop(36));
+        mosquito.css('left', $this.randomLeft(36));
+        mosquito.on('mousedown touchstart', function(e) {
+          e.preventDefault();
+          return $this.morrer($(this));
+        });
+        $this.paginaContent.append(mosquito);
+        $this.sumir(mosquito);
         results.push(num--);
       }
       return results;

@@ -28,11 +28,11 @@ class Database
     @maxSize = 65536
     @db = openDatabase(@name, @version, @displayName, @maxSize);
 
-  #executa sql
-    #1 - query select * from
-    #2 - (result) -> console.log result
-    #3 - paremetros em vetor e na order [1,50,"filipe"]
-    #database.sqlExecute("select * from aluno", (result) ->console.log result)
+#executa sql
+#1 - query select * from
+#2 - (result) -> console.log result
+#3 - paremetros em vetor e na order [1,50,"filipe"]
+#database.sqlExecute("select * from aluno", (result) ->console.log result)
   sqlExecute: (query, func, parameters = null) ->
     @db.transaction (transaction) ->
       transaction.executeSql query, parameters, (transaction, result) ->
@@ -52,18 +52,18 @@ class Game extends Database
       alert "Deu Problema Sério"
 
 #OBS nao necessariamente somente adicionar por exemplo se passarmos o valor -5 subtraira -5 do total de pontos
-  #vida do jogador
+#vida do jogador
   addVida: (qtde) ->
     @vida += qtde
 
-  #adiciona pontos para o jogador
+#adiciona pontos para o jogador
   addPontos: (pontos) ->
     @pontosJogo.text(parseInt(@pontosJogo.text()) + pontos)
 
   getPontos: ->
     parseInt(@pontosJogo.text())
 
-  #gera numero aleatorio no eixo x
+#gera numero aleatorio no eixo x
   randomTop: (height) ->
     aleatorio = Math.random() * @$window.height() + 56 # 56 area do navbar
     if aleatorio + height >= @$window.height()
@@ -71,7 +71,7 @@ class Game extends Database
     else
       "#{aleatorio}px";
 
-  #gera numero aleatorio no eixo Y
+#gera numero aleatorio no eixo Y
   randomLeft: (width) ->
     aleatorio = Math.random() * @$window.width()
     if aleatorio + width >= @$window.width()
@@ -87,16 +87,18 @@ class Game extends Database
 class Mosquito extends Game
   loop: null # contem set interval do objeto
   aparecer: (num) ->
+    $this = @ # para ativar o evento de clique para diferenciar o this da classe e o this do objeto jquery $(this)
     while num > 0 and @addVida(0) > 0
-      #mosquito = $('<img class="mosquito" src="img/mosquito.png" n1="197px" n2="-169px" n3="200px" n4="0px">')
+#mosquito = $('<img class="mosquito" src="img/mosquito.png" n1="197px" n2="-169px" n3="200px" n4="0px">')
+      mosquito = null
       mosquito = $('<img class="mosquito" src="img/mosquito.png">')
-      mosquito.css 'top' , @randomTop(36)
-      mosquito.css 'left' , @randomLeft(36)
-      mosquito.on 'mousedown touchstart', (e) =>
+      mosquito.css 'top' , $this.randomTop(36)
+      mosquito.css 'left' , $this.randomLeft(36)
+      mosquito.on 'mousedown touchstart', (e) ->
         e.preventDefault()
-        @morrer(mosquito)
-      @paginaContent.append(mosquito)
-      @sumir(mosquito)
+        $this.morrer($(@))
+      $this.paginaContent.append(mosquito)
+      $this.sumir(mosquito)
       num--
   sumir: (mosquito) ->
     setTimeout =>
