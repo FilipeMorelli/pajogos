@@ -15,7 +15,15 @@
 
 /* Index*/
 .index .background-index {
-    
+    background-image: url(../img/background-heaven.jpg);
+    background-attachment: fixed;
+    -webkit-background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    background-size: 100vw 100vh;
+    -webkit-background-size: 100vw 100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 .index .content-logo{
     text-align: center;
@@ -34,13 +42,22 @@
 }
 
 /* Modo Humano*/
-[data-page="modo-humano"] > *{
+.modo-humano-page > *{
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
     -khtml-user-select: none;    /* Konqueror */
     -moz-user-select: none;      /* Firefox */
     -ms-user-select: none;       /* IE/Edge */
-    user-select: none;    
+    user-select: none;
+    background-image: url(../img/background-heaven.jpg);
+    background-attachment: fixed;
+    -webkit-background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    background-size: 100vw 100vh;
+    -webkit-background-size: 100vw 100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 .modo-humano .mosquito{
     position: fixed;
@@ -56,21 +73,8 @@
     margin-top: 56px;
 }
 
-/* Icones */
-.pause-continue-game.pause-game i.icon.icon-pause-continue{
-    width: 24px;
-    height: 24px;
-    background-image: url(../img/ic_pause_black_24dp_2x.png);
-}
-
-.pause-continue-game.continue-game i.icon.icon-pause-continue{
-    width: 24px;
-    height: 24px;
-    background-image: url(../img/ic_play_arrow_black_24dp_2x.png);
-}
 
 /* Heart */
-
 .heart{
     position: relative;
     width: 50px;
@@ -123,7 +127,7 @@
 }
 
 
-.mosquito{
+.mosquito-teste{
     animation: animationFrames linear 2s;
     animation-iteration-count: 1;
     transform-origin: 50% 50%;

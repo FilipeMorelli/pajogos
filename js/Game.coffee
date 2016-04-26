@@ -44,7 +44,7 @@ class Game extends Database
   constructor: (paginaContent) ->
     @vida = 100 #vida do jogador
     @$window = $(window) #variavel que comtem o objeto window
-    @pontosJogo = $(".pontos") #variavel que comtem a classe que mostra a pontuação
+    @pontosJogo = $(".modo-humano-page .pontos") #variavel que comtem a classe que mostra a pontuação
     @loopGerarConteudo = null; #comtem ou vai conter o setInterval
     if paginaContent?
       @paginaContent = paginaContent #@paginaContent = null; #contem a pagina que acontecerá o jogo não posso instancia para receber a pagina já que ainda não foi carregada no DOM
@@ -60,14 +60,15 @@ class Game extends Database
   addPontos: (pontos) ->
     @pontosJogo.text(parseInt(@pontosJogo.text()) + pontos)
 
+  getPontos: ->
+    parseInt(@pontosJogo.text())
+
   #gera numero aleatorio no eixo x
   randomTop: (height) ->
     aleatorio = Math.random() * @$window.height() + 56 # 56 area do navbar
     if aleatorio + height >= @$window.height()
-      console.log "#{@$window.height() - height}px";
       "#{@$window.height() - height}px";
     else
-      console.log "#{aleatorio}px";
       "#{aleatorio}px";
 
   #gera numero aleatorio no eixo Y
@@ -85,30 +86,39 @@ class Game extends Database
 #Jogo no modo Humano
 class Mosquito extends Game
   loop: null # contem set interval do objeto
-  aparecer: () ->
-    #mosquito = $('<img class="mosquito" src="img/mosquito.png" n1="197px" n2="-169px" n3="200px" n4="0px">')
-    mosquito = $('<img class="mosquito" src="img/mosquito.png">')
-    mosquito.css 'top' , @randomTop(36)
-    mosquito.css 'left' , @randomLeft(36)
-    mosquito.on 'click', (e) =>
-      e.preventDefault()
-      @morrer(mosquito)
-    @paginaContent.append(mosquito)
-    @sumir(mosquito)
+  aparecer: (num) ->
+    while num > 0 and @addVida(0) > 0
+      #mosquito = $('<img class="mosquito" src="img/mosquito.png" n1="197px" n2="-169px" n3="200px" n4="0px">')
+      mosquito = $('<img class="mosquito" src="img/mosquito.png">')
+      mosquito.css 'top' , @randomTop(36)
+      mosquito.css 'left' , @randomLeft(36)
+      mosquito.on 'mousedown touchstart', (e) =>
+        e.preventDefault()
+        @morrer(mosquito)
+      @paginaContent.append(mosquito)
+      @sumir(mosquito)
+      num--
   sumir: (mosquito) ->
     setTimeout =>
       if mosquito.parents('html').length == 1
         mosquito.remove()
-        @addPontos(-1)
+        @reproduzir()
     , 2500
   morrer: (mosquito) ->
     @addPontos(1)
     mosquito.remove()
   reproduzir: () ->
+    @aparecer(2)
+    @infectar()
   infectar: () ->
+    if @addVida(-5) == 0
+      mainView.router.load(url: "index.html");
   gerarInimigo: ->
     @loop = setInterval =>
-      @aparecer()
+      if @getPontos() == 0
+        @aparecer(1)
+      else
+        @aparecer(Math.ceil(@getPontos() / 5)) # apos cada 5 pontos aumenta o numero de mosquitos!
     , 2500
 
 
@@ -120,8 +130,7 @@ class Humano extends Game
   proteção: () ->
 
 
-
-
+mosquito = null
 myApp.onPageInit "modo-humano", (page) ->
   mosquito = new Mosquito $(".modo-humano")
   mosquito.gerarInimigo()
@@ -133,3 +142,6 @@ myApp.onPageInit "modo-humano", (page) ->
     e.preventDefault()
     mosquito.pauseContinueJogo();
   return;
+
+myApp.onPageBeforeRemove "modo-humano", (page) ->
+  mosquito = null
