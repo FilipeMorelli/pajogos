@@ -115,13 +115,13 @@ class Mosquito extends Game
     @infectar()
   infectar: () ->
     if @addVida(-5) == 0
-      mainView.router.load(url: "index.html");
+      mainView.router.load(url: "game-over.html");
   gerarInimigo: ->
     @loop = setInterval =>
       if @getPontos() == 0
         @aparecer(1)
       else
-        @aparecer(Math.ceil(@getPontos() / 5)) # apos cada 5 pontos aumenta o numero de mosquitos!
+        @aparecer(Math.ceil(@getPontos() * 1.01 / 10)) # apos cada 5 pontos aumenta o numero de mosquitos!
     , 2500
 
 

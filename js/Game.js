@@ -156,7 +156,7 @@
     Mosquito.prototype.infectar = function() {
       if (this.addVida(-5) === 0) {
         return mainView.router.load({
-          url: "index.html"
+          url: "game-over.html"
         });
       }
     };
@@ -167,7 +167,7 @@
           if (_this.getPontos() === 0) {
             return _this.aparecer(1);
           } else {
-            return _this.aparecer(Math.ceil(_this.getPontos() / 5));
+            return _this.aparecer(Math.ceil(_this.getPontos() * 1.01 / 10));
           }
         };
       })(this), 2500);
