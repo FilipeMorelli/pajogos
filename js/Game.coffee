@@ -1,8 +1,19 @@
-myApp = new Framework7
-  material: true
-  pushState: true
-  swipePanel: 'left'
-  swipePanelActiveArea: 56
+"use strict"
+
+unloadEvent = (e) ->
+  confirmationMessage = "Você realmente deseja sair da página?"
+  (e || window.event).returnValue = confirmationMessage
+
+window.addEventListener "beforeunload" , unloadEvent
+
+try
+  myApp = new Framework7
+    material: true
+    swipePanel: 'left'
+    swipePanelActiveArea: 56
+catch
+  alert "Ocorreu um erro no carregamento da página!\n Será atualizada."
+  window.location.reload()
 
 # Export selectors engine
 $ = Dom7;
@@ -43,6 +54,7 @@ class Database
 class Game extends Database
   constructor: (paginaContent) ->
     @vida = 100 #vida do jogador
+    @addVida(0) #mostrar vida na tela
     @$window = $(window) #variavel que comtem o objeto window
     @pontosJogo = $(".modo-humano-page .pontos") #variavel que comtem a classe que mostra a pontuação
     @loopGerarConteudo = null; #comtem ou vai conter o setInterval
@@ -55,6 +67,8 @@ class Game extends Database
 #vida do jogador
   addVida: (qtde) ->
     @vida += qtde
+    $("#vida").text(@vida)
+    @vida
 
 #adiciona pontos para o jogador
   addPontos: (pontos) ->
@@ -108,13 +122,13 @@ class Mosquito extends Game
     , 2500
   morrer: (mosquito) ->
     @addPontos(1)
-    #@addVida(5) Adicionar vida ou não
+    @addVida(1) #Adicionar vida ou não
     mosquito.remove()
   reproduzir: () ->
-    @aparecer(2)
+    @aparecer(1)
     @infectar()
   infectar: () ->
-    if @addVida(-5) == 0
+    if @addVida(-5) <= 0
       mainView.router.load(url: "game-over.html");
   gerarInimigo: ->
     @loop = setInterval =>
@@ -145,6 +159,7 @@ myApp.onPageInit "modo-humano", (page) ->
     e.preventDefault()
     mosquito.pauseContinueJogo();
   return;
+
 
 myApp.onPageBeforeRemove "modo-humano", (page) ->
   mosquito = null

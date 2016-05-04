@@ -12,6 +12,13 @@
     right: 0px;
     top: 0px;
 }
+#vida{
+    position: absolute;
+    top: 7px;
+    right: 25px;
+    text-align: center;
+    width: 35px;
+}
 
 /* Index*/
 .index .background-index {
