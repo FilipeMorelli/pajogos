@@ -9,7 +9,6 @@ window.addEventListener "beforeunload" , unloadEvent
 try
   myApp = new Framework7
     material: true
-    pushState: true
     swipePanel: 'left'
     swipePanelActiveArea: 56
 catch
@@ -152,10 +151,13 @@ class Humano extends Game
 
 
 mosquito = null
-myApp.onPageInit "modo-humano", (page) ->
+
+modoMosquito = (page) ->
   mosquito = null
   mosquito = new Mosquito $(".modo-humano")
   mosquito.gerarInimigo()
+myApp.onPageInit "modo-humano", modoMosquito
+myApp.onPageReinit "modo-humano", modoMosquito
 
 myApp.onPageInit "game-over", ->
   mosquito = null
