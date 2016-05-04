@@ -9,6 +9,7 @@ window.addEventListener "beforeunload" , unloadEvent
 try
   myApp = new Framework7
     material: true
+    pushState: true
     swipePanel: 'left'
     swipePanelActiveArea: 56
 catch
@@ -129,7 +130,7 @@ class Mosquito extends Game
     @infectar()
   infectar: () ->
     if @addVida(-5) <= 0
-      mainView.router.load(url: "game-over.html");
+      @gameOver()
   gerarInimigo: ->
     @loop = setInterval =>
       if @getPontos() == 0
@@ -137,6 +138,9 @@ class Mosquito extends Game
       else
         @aparecer(Math.ceil(@getPontos() * 1.01 / 10)) # apos cada 5 pontos aumenta o numero de mosquitos!
     , 2500
+  gameOver: (obj) ->
+    mainView.router.load(url: "game-over.html");
+    clearInterval(@loop) # encerar o loop para gerar inimigo
 
 
 #Jogo no modo mosquito
@@ -149,17 +153,12 @@ class Humano extends Game
 
 mosquito = null
 myApp.onPageInit "modo-humano", (page) ->
+  mosquito = null
   mosquito = new Mosquito $(".modo-humano")
   mosquito.gerarInimigo()
-  #mosquito.aparecer();
 
-  #Game.humano.start($(".modo-humano"));
-  $(".pause-continue-game").on "click", (e) ->
-    $this = $(@)
-    e.preventDefault()
-    mosquito.pauseContinueJogo();
-  return;
-
+myApp.onPageInit "game-over", ->
+  mosquito = null
 
 myApp.onPageBeforeRemove "modo-humano", (page) ->
   mosquito = null

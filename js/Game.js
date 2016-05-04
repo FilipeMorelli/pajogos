@@ -16,6 +16,7 @@
   try {
     myApp = new Framework7({
       material: true,
+      pushState: true,
       swipePanel: 'left',
       swipePanelActiveArea: 56
     });
@@ -172,9 +173,7 @@
 
     Mosquito.prototype.infectar = function() {
       if (this.addVida(-5) <= 0) {
-        return mainView.router.load({
-          url: "game-over.html"
-        });
+        return this.gameOver();
       }
     };
 
@@ -188,6 +187,13 @@
           }
         };
       })(this), 2500);
+    };
+
+    Mosquito.prototype.gameOver = function(obj) {
+      mainView.router.load({
+        url: "game-over.html"
+      });
+      return clearInterval(this.loop);
     };
 
     return Mosquito;
@@ -216,14 +222,13 @@
   mosquito = null;
 
   myApp.onPageInit("modo-humano", function(page) {
+    mosquito = null;
     mosquito = new Mosquito($(".modo-humano"));
-    mosquito.gerarInimigo();
-    $(".pause-continue-game").on("click", function(e) {
-      var $this;
-      $this = $(this);
-      e.preventDefault();
-      return mosquito.pauseContinueJogo();
-    });
+    return mosquito.gerarInimigo();
+  });
+
+  myApp.onPageInit("game-over", function() {
+    return mosquito = null;
   });
 
   myApp.onPageBeforeRemove("modo-humano", function(page) {
