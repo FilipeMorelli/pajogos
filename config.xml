@@ -9,11 +9,11 @@
     <name>Zika Game</name>
 
     <description>
-        Descrição do aplicativo.
+        ZikaGame é um jogo para conscientizar as pessoas dos perigos que o mosquito Aedes Aegypti.
     </description>
 
     <author href="https://filipemorelli.github.io/pajogos" email="morellinrt@outlook.com">
-        Descrição do autor
+        Desenvolvedor a 7 anos voltado para tecnologias web e mobile.
     </author>
 
     <!--
@@ -37,6 +37,7 @@
     <preference name="auto-hide-splash-screen"    value="true" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
     <preference name="disable-cursor"             value="false" />          <!-- blackberry: prevents a mouse-icon/cursor from being displayed on the app -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
+    <preference name="AutoHideSplashScreen"       value="true" />
     <!--
         Define a specific version of PhoneGap to build into your app.
         <preference name="phonegap-version"       value="3.5.0" />
@@ -56,20 +57,21 @@
     -->
 
     <!-- Define app icon for each platform. -->
-    <icon src="img/icon.png" />
+    <icon src="img/logo.png" />
 
     <!-- Define app splash screen for each platform. -->
-    <gap:splash src="img/icon.png" gap:platform="android" gap:qualifier="port-ldpi" />
-    <gap:splash src="img/icon.png" gap:platform="android" gap:qualifier="port-mdpi" />
-    <gap:splash src="img/icon.png" gap:platform="android" gap:qualifier="port-hdpi" />
-    <gap:splash src="img/icon.png" gap:platform="android" gap:qualifier="port-xhdpi" />
-    <gap:splash src="img/icon.png" gap:platform="blackberry" />
-    <gap:splash src="img/icon.png" gap:platform="ios" width="320" height="480" />
-    <gap:splash src="img/icon.png" gap:platform="ios" width="640" height="960" />
-    <gap:splash src="img/icon.png" gap:platform="ios" width="640" height="1136" />
-    <gap:splash src="img/icon.png" gap:platform="ios" width="768" height="1024" />
-    <gap:splash src="img/icon.png" gap:platform="ios" width="1024" height="768" />
-    <gap:splash src="img/icon.png" gap:platform="winphone" />
+    <gap:splash src="img/SplashScreen.png" />
+    <gap:splash src="img/logo.png" gap:platform="android" gap:qualifier="port-ldpi" />
+    <gap:splash src="img/logo.png" gap:platform="android" gap:qualifier="port-mdpi" />
+    <gap:splash src="img/logo.png" gap:platform="android" gap:qualifier="port-hdpi" />
+    <gap:splash src="img/logo.png" gap:platform="android" gap:qualifier="port-xhdpi" />
+    <gap:splash src="img/logo.png" gap:platform="blackberry" />
+    <gap:splash src="img/logo.png" gap:platform="ios" width="320" height="480" />
+    <gap:splash src="img/logo.png" gap:platform="ios" width="640" height="960" />
+    <gap:splash src="img/logo.png" gap:platform="ios" width="640" height="1136" />
+    <gap:splash src="img/logo.png" gap:platform="ios" width="768" height="1024" />
+    <gap:splash src="img/logo.png" gap:platform="ios" width="1024" height="768" />
+    <gap:splash src="img/logo.png" gap:platform="winphone" />
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
         <string>100</string>
