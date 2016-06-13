@@ -164,6 +164,7 @@
         mosquito.on('mousedown touchstart', function(e) {
           e.preventDefault();
           $(this).attr("src", "img/mosquito-morto.png");
+          $(this).attr("class", "mosquito");
           return $this.morrer($(this));
         });
         $this.paginaContent.append(mosquito);
@@ -191,7 +192,7 @@
         return function() {
           return mosquito.remove();
         };
-      })(this), 500);
+      })(this), 250);
     };
 
     Mosquito.prototype.reproduzir = function() {

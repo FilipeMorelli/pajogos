@@ -131,7 +131,8 @@ class Mosquito extends Game
       mosquito.addClass(animation[Math.floor(Math.random() * animation.length)])
       mosquito.on 'mousedown touchstart', (e) ->
         e.preventDefault()
-        $(@).attr("src", "img/mosquito-morto.png")
+        $(@).attr("src", "img/mosquito-morto.png")#muda a imagem para mosquito morto
+        $(@).attr("class","mosquito") #retira movimentos
         $this.morrer($(@))
       $this.paginaContent.append(mosquito)
       $this.sumir(mosquito)
@@ -147,7 +148,7 @@ class Mosquito extends Game
     @addVida(1) #Adicionar vida ou não
     setTimeout =>
       mosquito.remove()
-    , 500
+    , 250
   reproduzir: () ->
     @aparecer(1)
     @infectar()
