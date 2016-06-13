@@ -121,13 +121,17 @@ class Mosquito extends Game
   aparecer: (num) ->
     $this = @ # para ativar o evento de clique para diferenciar o this da classe e o this do objeto jquery $(this)
     while num > 0 and @addVida(0) > 0
-#mosquito = $('<img class="mosquito" src="img/mosquito.png" n1="197px" n2="-169px" n3="200px" n4="0px">')
+      #mosquito = $('<img class="mosquito" src="img/mosquito.png" n1="197px" n2="-169px" n3="200px" n4="0px">')
       mosquito = null
       mosquito = $('<img class="mosquito" src="img/mosquito.png">')
       mosquito.css 'top' , $this.randomTop(36)
       mosquito.css 'left' , $this.randomLeft(36)
+
+      animation = ['direita', 'nada', 'esquerda', 'nada', 'descer', 'nada', 'subir', 'nada', 'zigzag_descendo', 'nada', 'zigzag_sobe', 'nada', 'zigzag_aleatorio', 'nada', 'perto', 'nada', 'longe']
+      mosquito.addClass(animation[Math.floor(Math.random() * animation.length)])
       mosquito.on 'mousedown touchstart', (e) ->
         e.preventDefault()
+        $(@).attr("src", "img/mosquito-morto.png")
         $this.morrer($(@))
       $this.paginaContent.append(mosquito)
       $this.sumir(mosquito)
@@ -141,7 +145,9 @@ class Mosquito extends Game
   morrer: (mosquito) ->
     @addPontosHumano(1)
     @addVida(1) #Adicionar vida ou não
-    mosquito.remove()
+    setTimeout =>
+      mosquito.remove()
+    , 500
   reproduzir: () ->
     @aparecer(1)
     @infectar()

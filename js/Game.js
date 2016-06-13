@@ -151,7 +151,7 @@
     Mosquito.prototype.loop = null;
 
     Mosquito.prototype.aparecer = function(num) {
-      var $this, mosquito, results;
+      var $this, animation, mosquito, results;
       $this = this;
       results = [];
       while (num > 0 && this.addVida(0) > 0) {
@@ -159,8 +159,11 @@
         mosquito = $('<img class="mosquito" src="img/mosquito.png">');
         mosquito.css('top', $this.randomTop(36));
         mosquito.css('left', $this.randomLeft(36));
+        animation = ['direita', 'nada', 'esquerda', 'nada', 'descer', 'nada', 'subir', 'nada', 'zigzag_descendo', 'nada', 'zigzag_sobe', 'nada', 'zigzag_aleatorio', 'nada', 'perto', 'nada', 'longe'];
+        mosquito.addClass(animation[Math.floor(Math.random() * animation.length)]);
         mosquito.on('mousedown touchstart', function(e) {
           e.preventDefault();
+          $(this).attr("src", "img/mosquito-morto.png");
           return $this.morrer($(this));
         });
         $this.paginaContent.append(mosquito);
@@ -184,7 +187,11 @@
     Mosquito.prototype.morrer = function(mosquito) {
       this.addPontosHumano(1);
       this.addVida(1);
-      return mosquito.remove();
+      return setTimeout((function(_this) {
+        return function() {
+          return mosquito.remove();
+        };
+      })(this), 500);
     };
 
     Mosquito.prototype.reproduzir = function() {
