@@ -40,7 +40,6 @@ class Game
     @loopGerarConteudo = null; #comtem ou vai conter o setInterval
     @iniciaPontuacaoModoMosquito() #caso nao tenha iniciado a pontuacao modo mosquito
     @iniciaPontuacaoModoHumano() #caso nao tenha iniciado a pontuacao modo humano
-    @inic
     if paginaContent?
       @paginaContent = paginaContent #@paginaContent = null; #contem a pagina que acontecerá o jogo não posso instancia para receber a pagina já que ainda não foi carregada no DOM
     else
@@ -153,7 +152,7 @@ class Mosquito extends Game
     @aparecer(1)
     @infectar()
   infectar: () ->
-    if @addVida(-5) <= 0
+    if @addVida(-2) <= 0
       @gameOver()
   gerarInimigo: ->
     @loop = setInterval =>
@@ -162,7 +161,7 @@ class Mosquito extends Game
       else
         @aparecer(Math.ceil(@getDificuldade() * 1.01 / 10)) # apos cada 5 pontos aumenta o numero de mosquitos!
     , 2500
-  gameOver: (obj) ->
+  gameOver: () ->
     mainView.router.load(url: "game-over-humano.html");
     clearInterval(@loop) # encerar o loop para gerar inimigo
 
@@ -177,7 +176,15 @@ class Humano extends Game
 
 mosquito = null
 
-mensagens = [
+mensagensIniciais = [
+  "Mate a maior quantidade de mosquitos"
+  "Faça a maior pontuação"
+  "Não deixe mosquitos escaparem"
+  "Não deixe seu coração chegar a 0"
+  "Consiga a maior pontuação"
+]
+
+mensagensFinais = [
   "<h2>O que é a Dengue?</h2>A dengue é uma doença viral transmitida pelo mosquito Aedes aegypti. No Brasil, foi identificada pela primeira vez em 1986. Estima-se que 50 milhões de infecções por dengue ocorram anualmente no mundo.",
   "<h2>Quais são os sintomas da Dengue?</h2>A infecção por dengue pode ser assintomática, leve ou causar doença grave, levando à morte. Normalmente, a primeira manifestação da dengue é a febre alta (39° a 40°C), de início abrupto, que geralmente dura de 2 a 7 dias, acompanhada de dor de cabeça, dores no corpo e articulações, prostração, fraqueza, dor atrás dos olhos, erupção e coceira na pele. Perda de peso, náuseas e vômitos são comuns. Na fase febril inicial da doença pode ser difícil diferenciá-la. A forma grave da doença inclui dor abdominal intensa e contínua, vômitos persistentes, sangramento de mucosas, entre outros sintomas.",
   "<h2>Como a Dengue pode ser transmitida?</h2>A principal forma de transmissão é pela picada dos mosquitos Aedes aegypti. Há registros de transmissão vertical (gestante - bebê) e por transfusão de sangue.",
@@ -194,9 +201,20 @@ mensagens = [
 ]
 
 myApp.onPageInit "modo-humano", modoMosquito = (page) ->
-    mosquito = null
-    mosquito = new Mosquito $(".modo-humano")
-    mosquito.gerarInimigo()
+
+  mosquito = null
+  mosquito = new Mosquito $(".modo-humano")
+
+  myApp.addNotification({
+    message: mensagensIniciais[Math.floor(Math.random() * mensagensIniciais.length)]
+    button:
+      text: 'Começar!'
+    onClose: ->
+      setTimeout ->
+        mosquito.gerarInimigo()
+      , 500
+  });
+
 
 myApp.onPageInit "game-over-humano", (page) ->
 
@@ -209,7 +227,7 @@ myApp.onPageInit "game-over-humano", (page) ->
 
   $(".pontuacao-atual").text(pts)
   $(".recorde").text(mosquito.getPontuacaoModoHumano())
-  $(".mensagem").html(mensagens[Math.floor(Math.random() * mensagens.length)]);
+  $(".mensagem").html(mensagensFinais[Math.floor(Math.random() * mensagensFinais.length)]);
   mosquito = null #mata o processo do jogo
 
 
@@ -224,5 +242,5 @@ myApp.onPageInit "game-over-mosquito", (page) ->
 
   $(".pontuacao-atual").text(pts)
   $(".recorde").text(mosquito.getPontuacaoModoHumano())
-  $(".mensagem").html(mensagens[Math.floor(Math.random() * mensagens.length)]);
+  $(".mensagem").html(mensagensFinais[Math.floor(Math.random() * mensagensFinais.length)]);
   mosquito = null #mata o processo do jogo
