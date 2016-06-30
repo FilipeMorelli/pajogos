@@ -3,10 +3,12 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/js/Game.js" />
+        <item url="file://$PROJECT_DIR$/v2/js/Game.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/js/Game.js" />
+      <root url="file://$PROJECT_DIR$/v2/js/Game.js" />
     </CLASSES>
     <SOURCES />
   </library>
